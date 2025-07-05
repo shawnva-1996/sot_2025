@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Genesis Journey Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
@@ -15,39 +14,66 @@
       --accent: #004d7a;
     }
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
       font-family: "Segoe UI", sans-serif;
       background-color: var(--bg-parchment);
       color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header, footer {
-      background-color: #654321;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.8rem;
+      overflow: hidden;
     }
 
     #map {
-      height: 50vh;
-      width: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      z-index: 0;
     }
 
-    .verse-scroll {
-      flex-grow: 1;
+    .overlay-controls {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      z-index: 1000;
+      background-color: rgba(255, 250, 240, 0.9);
+      border: 1px solid #d2b48c;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .overlay-controls h1 {
+      font-size: 1.2rem;
+      margin: 0 0 0.4rem;
+      color: #654321;
+    }
+
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #cardContainer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-height: 40%;
       overflow-x: auto;
       white-space: nowrap;
       padding: 1rem;
       background-color: #eee6d5;
+      display: none;
+      z-index: 1000;
     }
 
     .verse-card {
@@ -72,40 +98,22 @@
       font-size: 0.9rem;
     }
 
-    footer {
-      font-size: 0.85rem;
-    }
-
     @media screen and (max-width: 600px) {
-      h1 { font-size: 1.5rem; }
+      .overlay-controls h1 { font-size: 1rem; }
       .verse-card { min-width: 180px; font-size: 0.85rem; }
+      button { font-size: 0.75rem; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🌍 Genesis Journey Map</h1>
-    <p>From Eden to Abraham’s Tomb</p>
-  </header>
-
   <div id="map"></div>
 
-  <section class="verse-scroll">
-    <div class="verse-card"><h3>1️⃣ Eden</h3><p>Garden planted by God<br><em>Genesis 2</em></p></div>
-    <div class="verse-card"><h3>2️⃣ Nod</h3><p>Cain exiled eastward<br><em>Genesis 4:16</em></p></div>
-    <div class="verse-card"><h3>3️⃣ Ararat</h3><p>Ark landed here<br><em>Genesis 8:4</em></p></div>
-    <div class="verse-card"><h3>4️⃣ Babel</h3><p>Languages confused by God<br><em>Genesis 11</em></p></div>
-    <div class="verse-card"><h3>5️⃣ Ur</h3><p>Abraham born here<br><em>Genesis 11:31</em></p></div>
-    <div class="verse-card"><h3>6️⃣ Haran</h3><p>Family sojourn stop<br><em>Genesis 11:31</em></p></div>
-    <div class="verse-card"><h3>7️⃣ Shechem</h3><p>Abraham builds altar<br><em>Genesis 12:6</em></p></div>
-    <div class="verse-card"><h3>8️⃣ Bethel</h3><p>Abraham worships God<br><em>Genesis 12:8</em></p></div>
-    <div class="verse-card"><h3>9️⃣ Egypt</h3><p>Escapes famine temporarily<br><em>Genesis 12:10</em></p></div>
-    <div class="verse-card"><h3>🔟 Hebron</h3><p>Sarah buried here<br><em>Genesis 23</em></p></div>
-  </section>
+  <div class="overlay-controls">
+    <h1>Genesis Journey</h1>
+    <button onclick="toggleCards()">📖 Toggle Verse Cards</button>
+  </div>
 
-  <footer>
-    <p>&copy; 2025 Biblical Resources by Shawn</p>
-  </footer>
+  <section id="cardContainer"></section>
 
   <script>
     const map = L.map('map').setView([33, 40], 5);
@@ -115,25 +123,53 @@
     }).addTo(map);
 
     const locations = [
-      { name: "1️⃣ Eden", coords: [33.3, 44.4], desc: "Garden planted by God", verse: "Genesis 2" },
-      { name: "2️⃣ Nod", coords: [34.0, 45.0], desc: "Cain exiled eastward", verse: "Genesis 4:16" },
-      { name: "3️⃣ Ararat", coords: [39.7, 44.3], desc: "Ark landed here", verse: "Genesis 8:4" },
-      { name: "4️⃣ Babel", coords: [32.5, 44.4], desc: "Languages confused by God", verse: "Genesis 11" },
-      { name: "5️⃣ Ur", coords: [30.96, 46.10], desc: "Abraham born here", verse: "Genesis 11:31" },
-      { name: "6️⃣ Haran", coords: [36.9, 39.0], desc: "Family sojourn stop", verse: "Genesis 11:31" },
-      { name: "7️⃣ Shechem", coords: [32.2, 35.3], desc: "Abraham builds altar", verse: "Genesis 12:6" },
-      { name: "8️⃣ Bethel", coords: [31.9, 35.2], desc: "Abraham worships God", verse: "Genesis 12:8" },
-      { name: "9️⃣ Egypt", coords: [30.0, 31.2], desc: "Escapes famine temporarily", verse: "Genesis 12:10" },
-      { name: "🔟 Hebron", coords: [31.5, 35.1], desc: "Sarah buried here", verse: "Genesis 23" }
+      { number: 1, name: "Eden", coords: [33.3, 44.4], desc: "Garden planted by God", verse: "Genesis 2" },
+      { number: 2, name: "Nod", coords: [34.0, 45.0], desc: "Cain exiled eastward", verse: "Genesis 4:16" },
+      { number: 3, name: "Ararat", coords: [39.7, 44.3], desc: "Ark landed here", verse: "Genesis 8:4" },
+      { number: 4, name: "Babel", coords: [32.5, 44.4], desc: "Languages confused", verse: "Genesis 11" },
+      { number: 5, name: "Ur", coords: [30.96, 46.10], desc: "Abraham born here", verse: "Genesis 11:31" },
+      { number: 6, name: "Haran", coords: [36.9, 39.0], desc: "Family sojourn stop", verse: "Genesis 11:31" },
+      { number: 7, name: "Shechem", coords: [32.2, 35.3], desc: "Abraham builds altar", verse: "Genesis 12:6" },
+      { number: 8, name: "Bethel", coords: [31.9, 35.2], desc: "Abraham worships God", verse: "Genesis 12:8" },
+      { number: 9, name: "Egypt", coords: [30.0, 31.2], desc: "Escapes famine", verse: "Genesis 12:10" },
+      { number: 10, name: "Hebron", coords: [31.5, 35.1], desc: "Sarah buried here", verse: "Genesis 23" },
+      { number: 11, name: "Rebekah’s Well", coords: [36.9, 39.0], desc: "Wife found for Isaac", verse: "Genesis 24" },
+      { number: 12, name: "Mamre", coords: [31.5, 35.1], desc: "God visits Abraham", verse: "Genesis 18" },
+      { number: 13, name: "Sodom", coords: [31.3, 35.5], desc: "City destroyed by God", verse: "Genesis 19" },
+      { number: 14, name: "Beersheba", coords: [31.3, 34.8], desc: "Isaac blessed there", verse: "Genesis 26" },
+      { number: 15, name: "Peniel", coords: [32.0, 35.7], desc: "Jacob wrestles angel", verse: "Genesis 32" },
+      { number: 16, name: "Shechem", coords: [32.2, 35.3], desc: "Dinah incident", verse: "Genesis 34" },
+      { number: 17, name: "Dothan", coords: [32.5, 35.1], desc: "Joseph sold by brothers", verse: "Genesis 37" },
+      { number: 18, name: "Egypt", coords: [30.0, 31.2], desc: "Joseph rises to power", verse: "Genesis 41" }
     ];
 
+    const cardContainer = document.getElementById("cardContainer");
+
     locations.forEach(loc => {
-      L.marker(loc.coords).addTo(map)
-        .bindPopup(`<strong>${loc.name}</strong><br>${loc.desc}<br><em>${loc.verse}</em>`);
+      // Marker
+      L.marker(loc.coords, {
+        icon: L.divIcon({
+          className: 'custom-div-icon',
+          html: `<div style="background:#004d7a;color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;">${loc.number}</div>`,
+          iconSize: [30, 42],
+          iconAnchor: [15, 42]
+        })
+      }).addTo(map)
+        .bindPopup(`<strong>#${loc.number} ${loc.name}</strong><br>${loc.desc}<br><em>${loc.verse}</em>`);
+
+      // Card
+      const card = document.createElement("div");
+      card.className = "verse-card";
+      card.innerHTML = `<h3>#${loc.number} ${loc.name}</h3><p>${loc.desc}<br><em>${loc.verse}</em></p>`;
+      cardContainer.appendChild(card);
     });
 
     const path = locations.map(loc => loc.coords);
     L.polyline(path, { color: 'brown' }).addTo(map);
+
+    function toggleCards() {
+      cardContainer.style.display = cardContainer.style.display === "none" ? "block" : "none";
+    }
   </script>
 </body>
 </html>
