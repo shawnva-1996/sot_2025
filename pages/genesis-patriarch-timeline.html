@@ -1,76 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Genesis Patriarchs Timeline</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
-  <link rel="stylesheet" href="../styles/main.css" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
-      background-color: #f5f5f5;
+      background-color: #f9f6f2;
+      color: #333;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
-
-    header, footer {
+    header {
       background-color: #2f4f4f;
       color: white;
       text-align: center;
       padding: 1rem;
     }
-
     h1 {
       margin: 0;
       font-size: 1.75rem;
     }
-
     nav a {
       color: #a9ddff;
       text-decoration: none;
       font-size: 0.9rem;
     }
-
     main {
-      flex-grow: 1;
       padding: 1rem;
+      animation: fadeIn 0.8s ease;
+      height: auto; /* Add this */
     }
-
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     #timeline {
       width: 100%;
-      max-width: 100%;
       height: 65vh;
       border: 1px solid #ccc;
       background-color: #fff;
-      overflow: hidden;
       touch-action: pan-x pan-y;
     }
-
-    footer {
-      font-size: 0.9rem;
-      padding: 1rem;
+    .vis-item {
+      font-size: 0.85rem;
+      padding: 2px 4px;
     }
+    .vis-labelset .vis-label {
+      font-size: 0.75rem;
+    }
+    .adam     { background-color: #ff9a9a; }
+    .enoch    { background-color: #a0e7a0; }
+    .flood    { background-color: #9ac6ff; font-weight: bold; }
+    .babel    { background-color: #ffd700; font-weight: bold; }
 
-    @media screen and (max-width: 600px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      nav a {
-        font-size: 0.8rem;
-      }
-
-      #timeline {
-        height: 60vh;
-      }
-
-      footer {
-        font-size: 0.8rem;
-      }
+    #backToTop {
+      position: fixed;
+      bottom: 1.2rem;
+      right: 1.2rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      background-color: #004d7a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+    #backToTop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      nav a { font-size: 0.8rem; }
+      #timeline { height: 60vh; }
+      #backToTop { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
     }
   </style>
 </head>
@@ -84,11 +97,78 @@
     <div id="timeline"></div>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Biblical Resources by Shawn</p>
-  </footer>
+  <button id="backToTop" aria-label="Back to top">↑ Back to Top</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
-  <script src="../scripts/genesis-patriarch-timeline.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Data setup
+      const items = new vis.DataSet([
+        { id: 1, content: 'Adam (930)', start: 0, end: 930, group: 1, className: 'adam' },
+        { id: 2, content: 'Seth (912)', start: 130, end: 1042, group: 2 },
+        { id: 3, content: 'Enosh (905)', start: 235, end: 1140, group: 3 },
+        { id: 4, content: 'Kenan (910)', start: 325, end: 1235, group: 4 },
+        { id: 5, content: 'Mahalalel (895)', start: 395, end: 1290, group: 5 },
+        { id: 6, content: 'Jared (962)', start: 460, end: 1422, group: 6 },
+        { id: 7, content: 'Enoch (365)', start: 622, end: 987, group: 7, className: 'enoch' },
+        { id: 8, content: 'Methuselah (969)', start: 687, end: 1656, group: 8 },
+        { id: 9, content: 'Lamech (777)', start: 874, end: 1651, group: 9 },
+        { id: 10, content: 'Noah (950)', start: 1056, end: 2006, group: 10 },
+        { id: 11, content: 'Shem (600)', start: 1556, end: 2156, group: 11 },
+        { id: 12, content: 'Arphaxad (438)', start: 1658, end: 2096, group: 12 },
+        { id: 13, content: 'Shelah (433)', start: 1693, end: 2126, group: 13 },
+        { id: 14, content: 'Eber (464)', start: 1723, end: 2187, group: 14 },
+        { id: 15, content: 'Peleg (239)', start: 1757, end: 1996, group: 15 },
+        { id: 16, content: 'Reu (239)', start: 1787, end: 2026, group: 16 },
+        { id: 17, content: 'Serug (230)', start: 1819, end: 2049, group: 17 },
+        { id: 18, content: 'Nahor (148)', start: 1849, end: 1997, group: 18 },
+        { id: 19, content: 'Terah (205)', start: 1878, end: 2083, group: 19 },
+        { id: 20, content: 'Abraham (175)', start: 1948, end: 2123, group: 20 },
+        { id: 21, content: 'FLOOD', start: 1656, type: 'point', group: 21, className: 'flood' },
+        { id: 22, content: 'Tower of Babel', start: 1757, type: 'point', group: 22, className: 'babel' }
+      ]);
+
+      const groups = new vis.DataSet([
+        { id: 1, content: 'Adam' }, { id: 2, content: 'Seth' }, { id: 3, content: 'Enosh' },
+        { id: 4, content: 'Kenan' }, { id: 5, content: 'Mahalalel' }, { id: 6, content: 'Jared' },
+        { id: 7, content: 'Enoch' }, { id: 8, content: 'Methuselah' }, { id: 9, content: 'Lamech' },
+        { id: 10, content: 'Noah' }, { id: 11, content: 'Shem' }, { id: 12, content: 'Arphaxad' },
+        { id: 13, content: 'Shelah' }, { id: 14, content: 'Eber' }, { id: 15, content: 'Peleg' },
+        { id: 16, content: 'Reu' }, { id: 17, content: 'Serug' }, { id: 18, content: 'Nahor' },
+        { id: 19, content: 'Terah' }, { id: 20, content: 'Abraham' }, { id: 21, content: 'FLOOD' },
+        { id: 22, content: 'Babel' }
+      ]);
+
+      // Initialize timeline
+      const container = document.getElementById('timeline');
+      if (window.innerWidth < 600) {
+        container.style.height = '60vh';
+      }
+
+      const options = {
+        stack: true,
+        orientation: 'top',
+        zoomable: true,
+        showCurrentTime: false,
+        autoResize: true,
+        min: 0,
+        max: 2500,
+        margin: { item: { horizontal: 0, vertical: 10 } }
+      };
+
+      new vis.Timeline(container, items, groups, options);
+
+      // Back to Top functionality
+      const backBtn = document.getElementById('backToTop');
+      const toggleBackToTop = () => {
+        backBtn.classList.toggle('show', document.documentElement.scrollTop > 200);
+      };
+
+      window.addEventListener('scroll', toggleBackToTop, { passive: true });
+      backBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
 </body>
 </html>
