@@ -4,23 +4,161 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Biblical Resource Hub</title>
-  <link rel="stylesheet" href="styles/main.css" />
+
+  <style>
+    :root {
+      --bg-light: #fdf9f2;
+      --bg-dark: #1e1e1e;
+      --text-light: #333;
+      --text-dark: #eee;
+      --card-bg-light: #fff;
+      --card-bg-dark: #2a2a2a;
+      --accent-light: #004d7a;
+      --accent-dark: #66cfff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    header, footer {
+      background-color: #2f4f4f;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1rem;
+      opacity: 0.85;
+    }
+
+    .dark-toggle {
+      margin-top: 0.5rem;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
+    }
+
+    .dark-toggle:hover {
+      background-color: #005e99;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .resource-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .resource-card {
+      background-color: var(--card-bg-light);
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 1.2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .resource-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    body.dark .resource-card {
+      background-color: var(--card-bg-dark);
+      border-color: #444;
+    }
+
+    .resource-card h2 {
+      font-size: 1.3rem;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: var(--accent-light);
+    }
+
+    body.dark .resource-card h2 {
+      color: var(--accent-dark);
+    }
+
+    .resource-card a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #007acc;
+    }
+
+    body.dark .resource-card a {
+      color: #66cfff;
+    }
+
+    .resource-card a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      font-size: 0.9rem;
+      padding: 1rem;
+    }
+
+    @media screen and (max-width: 600px) {
+      header h1 { font-size: 1.6rem; }
+      header p { font-size: 0.9rem; }
+      .resource-card h2 { font-size: 1.2rem; }
+      .resource-card { padding: 1rem; }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Biblical Resource Hub</h1>
+    <h1>📖 Biblical Resource Hub</h1>
     <p>Explore foundational insights from Genesis.</p>
+    <button class="dark-toggle" onclick="toggleDark()">🌓 Toggle Dark Mode</button>
   </header>
 
   <main>
     <section class="resource-list">
       <article class="resource-card">
-        <h2>Genesis Patriarchy Timeline</h2>
+        <h2>📊 Genesis Patriarchy Timeline</h2>
         <a href="pages/genesis-patriarch-timeline.html">View Timeline</a>
       </article>
 
       <article class="resource-card">
-        <h2>Genesis Patriarchy Family Tree</h2>
+        <h2>🌳 Genesis Patriarchy Family Tree</h2>
         <a href="pages/genesis-family-tree.html">View Family Tree</a>
       </article>
     </section>
@@ -29,5 +167,11 @@
   <footer>
     <p>&copy; 2025 Biblical Resources by Shawn</p>
   </footer>
+
+  <script>
+    function toggleDark() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
 </body>
 </html>

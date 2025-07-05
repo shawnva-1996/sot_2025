@@ -1,73 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Genesis Family Tree — D3.js</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <style>
-      body {
-        margin: 0;
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f9f6f2;
-        color: #333;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-      header,
-      footer {
-        background-color: #2f4f4f;
-        color: white;
-        text-align: center;
-        padding: 1rem;
-      }
-      h1 {
-        margin: 0;
-        font-size: 1.6rem;
-      }
-      #chart {
-        flex-grow: 1;
-        overflow: auto;
-        background-color: white;
-      }
-      .node circle {
-        fill: #004d7a;
-        stroke: #ccc;
-        stroke-width: 1.5px;
-      }
-      .node text {
-        font-size: 1rem;
-        fill: #333;
-      }
-      .link {
-        fill: none;
-        stroke: #aaa;
-        stroke-width: 1.5px;
-      }
-      @media screen and (max-width: 600px) {
-        h1 {
-          font-size: 1.4rem;
-        }
-        .node text {
-          font-size: 1.1rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Genesis Family Tree (Adam → Abraham)</h1>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genesis Family Tree — D3.js</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f9f6f2;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header, footer {
+      background-color: #2f4f4f;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    #chart {
+      flex-grow: 1;
+      overflow: auto;
+      background-color: white;
+    }
+    .node circle {
+      fill: #004d7a;
+      stroke: #ccc;
+      stroke-width: 1.5px;
+    }
+    .node text {
+      fill: #333;
+    }
+    .link {
+      fill: none;
+      stroke: #aaa;
+      stroke-width: 1.5px;
+    }
+    @media screen and (max-width: 600px) {
+      h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Genesis Family Tree (Adam → Abraham)</h1>
+  </header>
 
-    <div id="chart"></div>
+  <div id="chart"></div>
 
-    <footer>
-      <p>&copy; 2025 Biblical Resources by Shawn</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 Biblical Resources by Shawn</p>
+  </footer>
 
-    <script>
-      const treeData = {
+  <script>
+    const isMobile = window.innerWidth < 768;
+    const fontSize = isMobile ? "1.1rem" : "0.85rem";
+    const margin = { top: 20, right: 200, bottom: 20, left: 200 };
+    const width = isMobile ? window.innerWidth * 2.5 : window.innerWidth * 3;
+    const height = isMobile ? window.innerHeight * 2 : window.innerHeight * 1.5;
+
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom])
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .call(d3.zoom().on("zoom", (event) => {
+        g.attr("transform", event.transform);
+      }));
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // ← Insert your full treeData here
+    const treeData = {
         name: "Adam",
         children: [
           {
@@ -448,65 +461,39 @@
         ],
       };
 
-      const margin = { top: 20, right: 200, bottom: 20, left: 200 },
-        width = window.innerWidth * 3,
-        height = window.innerHeight * 1.5;
+    const root = d3.hierarchy(treeData);
+    const treeLayout = d3.tree().size(isMobile ? [height * 1.2, width * 1.2] : [height, width]);
+    treeLayout(root);
 
-      const svg = d3
-        .select("#chart")
-        .append("svg")
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .attr("viewBox", [
-          0,
-          0,
-          width + margin.left + margin.right,
-          height + margin.top + margin.bottom,
-        ])
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .call(
-          d3.zoom().on("zoom", (event) => {
-            g.attr("transform", event.transform);
-          })
-        );
+    // Draw links
+    g.selectAll(".link")
+      .data(root.links())
+      .join("path")
+      .attr("class", "link")
+      .attr("d", d3.linkHorizontal()
+        .x(d => d.y)
+        .y(d => d.x));
 
-      const g = svg
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+    // Draw nodes
+    const node = g.selectAll(".node")
+      .data(root.descendants())
+      .join("g")
+      .attr("class", "node")
+      .attr("transform", d => `translate(${d.y},${d.x})`);
 
-      const root = d3.hierarchy(treeData);
-      const treeLayout = d3.tree().size([height, width]);
-      treeLayout(root);
+    node.append("circle").attr("r", 5);
 
-      // Draw links
-      g.selectAll(".link")
-        .data(root.links())
-        .join("path")
-        .attr("class", "link")
-        .attr(
-          "d",
-          d3
-            .linkHorizontal()
-            .x((d) => d.y)
-            .y((d) => d.x)
-        );
-
-      // Draw nodes
-      const node = g
-        .selectAll(".node")
-        .data(root.descendants())
-        .join("g")
-        .attr("class", "node")
-        .attr("transform", (d) => `translate(${d.y},${d.x})`);
-
-      node.append("circle").attr("r", 5);
-
-      node
-        .append("text")
-        .attr("dy", "0.35em")
-        .attr("x", (d) => (d.children ? -10 : 10))
-        .attr("text-anchor", (d) => (d.children ? "end" : "start"))
-        .text((d) => d.data.name);
-    </script>
-  </body>
+    node.append("text")
+      .attr("dy", "0.35em")
+      .attr("x", d => d.children ? -10 : 10)
+      .attr("text-anchor", d => d.children ? "end" : "start")
+      .style("font-size", fontSize)
+      .selectAll("tspan")
+      .data(d => d.data.name.split(" "))
+      .join("tspan")
+        .attr("x", d => d.children ? -10 : 10)
+        .attr("dy", (word, i) => i ? "1em" : 0)
+        .text(word => word);
+  </script>
+</body>
 </html>
