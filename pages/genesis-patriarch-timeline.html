@@ -2,25 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Genesis Patriarchs Timeline</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genesis Patriarchy Family Tree</title>
   <link rel="stylesheet" href="../styles/main.css" />
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    header, footer {
+      background-color: #2f4f4f;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.75rem;
+    }
+
+    main {
+      padding: 1rem;
+    }
+
+    .zoom-controls {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .zoom-controls button {
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      background-color: #004d7a;
+      color: white;
+      cursor: pointer;
+    }
+
+    .zoom-controls button:hover {
+      background-color: #006699;
+    }
+
+    .chart-wrapper {
+      max-width: 100%;
+      max-height: 75vh;
+      overflow: auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      touch-action: pan-x pan-y;
+    }
+
+    .chart-wrapper svg {
+      width: max-content;
+      height: auto;
+      transform: scale(1);
+      transform-origin: top left;
+      transition: transform 0.2s ease;
+    }
+
+    footer {
+      font-size: 0.9rem;
+      padding: 1rem;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Genesis Patriarchs Timeline</h1>
-    <nav><a href="../index.html">← Back to Home</a></nav>
+    <h1>Genesis Patriarchy Family Tree</h1>
+    <nav><a href="../index.html" style="color: #a9ddff;">← Back to Home</a></nav>
   </header>
 
   <main>
-    <div id="timeline"></div>
+    <div class="zoom-controls">
+      <button id="zoom-in">Zoom In</button>
+      <button id="zoom-out">Zoom Out</button>
+      <button id="zoom-reset">Reset</button>
+    </div>
+
+    <div class="chart-wrapper">
+      <div class="mermaid" id="family-tree-diagram"></div>
+    </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 Biblical Resources by Shawn</p>
+    &copy; 2025 Biblical Resources by Shawn
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
-  <script src="/scripts/genesis-patriarch-timeline.js"></script>
+  <script type="module" src="../scripts/genesis-family-tree.js"></script>
 </body>
 </html>
