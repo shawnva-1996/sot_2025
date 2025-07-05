@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Genesis Journey Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    :root {
+      --bg-parchment: #fdf6e3;
+      --card-bg: #fffaf0;
+      --accent: #004d7a;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--bg-parchment);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header, footer {
+      background-color: #654321;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    #map {
+      height: 50vh;
+      width: 100%;
+    }
+
+    .verse-scroll {
+      flex-grow: 1;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 1rem;
+      background-color: #eee6d5;
+    }
+
+    .verse-card {
+      display: inline-block;
+      background: var(--card-bg);
+      border: 1px solid #d2b48c;
+      padding: 1rem;
+      margin-right: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      min-width: 220px;
+    }
+
+    .verse-card h3 {
+      margin-top: 0;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+
+    .verse-card p {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      font-size: 0.85rem;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      .verse-card { min-width: 180px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌍 Genesis Journey Map</h1>
+    <p>From Eden to Abraham’s Tomb</p>
+  </header>
+
+  <div id="map"></div>
+
+  <section class="verse-scroll">
+    <div class="verse-card"><h3>1️⃣ Eden</h3><p>Garden planted by God<br><em>Genesis 2</em></p></div>
+    <div class="verse-card"><h3>2️⃣ Nod</h3><p>Cain exiled eastward<br><em>Genesis 4:16</em></p></div>
+    <div class="verse-card"><h3>3️⃣ Ararat</h3><p>Ark landed here<br><em>Genesis 8:4</em></p></div>
+    <div class="verse-card"><h3>4️⃣ Babel</h3><p>Languages confused by God<br><em>Genesis 11</em></p></div>
+    <div class="verse-card"><h3>5️⃣ Ur</h3><p>Abraham born here<br><em>Genesis 11:31</em></p></div>
+    <div class="verse-card"><h3>6️⃣ Haran</h3><p>Family sojourn stop<br><em>Genesis 11:31</em></p></div>
+    <div class="verse-card"><h3>7️⃣ Shechem</h3><p>Abraham builds altar<br><em>Genesis 12:6</em></p></div>
+    <div class="verse-card"><h3>8️⃣ Bethel</h3><p>Abraham worships God<br><em>Genesis 12:8</em></p></div>
+    <div class="verse-card"><h3>9️⃣ Egypt</h3><p>Escapes famine temporarily<br><em>Genesis 12:10</em></p></div>
+    <div class="verse-card"><h3>🔟 Hebron</h3><p>Sarah buried here<br><em>Genesis 23</em></p></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Biblical Resources by Shawn</p>
+  </footer>
+
+  <script>
+    const map = L.map('map').setView([33, 40], 5);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © OpenStreetMap contributors'
+    }).addTo(map);
+
+    const locations = [
+      { name: "1️⃣ Eden", coords: [33.3, 44.4], desc: "Garden planted by God", verse: "Genesis 2" },
+      { name: "2️⃣ Nod", coords: [34.0, 45.0], desc: "Cain exiled eastward", verse: "Genesis 4:16" },
+      { name: "3️⃣ Ararat", coords: [39.7, 44.3], desc: "Ark landed here", verse: "Genesis 8:4" },
+      { name: "4️⃣ Babel", coords: [32.5, 44.4], desc: "Languages confused by God", verse: "Genesis 11" },
+      { name: "5️⃣ Ur", coords: [30.96, 46.10], desc: "Abraham born here", verse: "Genesis 11:31" },
+      { name: "6️⃣ Haran", coords: [36.9, 39.0], desc: "Family sojourn stop", verse: "Genesis 11:31" },
+      { name: "7️⃣ Shechem", coords: [32.2, 35.3], desc: "Abraham builds altar", verse: "Genesis 12:6" },
+      { name: "8️⃣ Bethel", coords: [31.9, 35.2], desc: "Abraham worships God", verse: "Genesis 12:8" },
+      { name: "9️⃣ Egypt", coords: [30.0, 31.2], desc: "Escapes famine temporarily", verse: "Genesis 12:10" },
+      { name: "🔟 Hebron", coords: [31.5, 35.1], desc: "Sarah buried here", verse: "Genesis 23" }
+    ];
+
+    locations.forEach(loc => {
+      L.marker(loc.coords).addTo(map)
+        .bindPopup(`<strong>${loc.name}</strong><br>${loc.desc}<br><em>${loc.verse}</em>`);
+    });
+
+    const path = locations.map(loc => loc.coords);
+    L.polyline(path, { color: 'brown' }).addTo(map);
+  </script>
+</body>
+</html>
