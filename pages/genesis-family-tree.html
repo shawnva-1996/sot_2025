@@ -1,145 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Genesis Family Tree — D3.js</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f6f2;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overflow: hidden;
-    }
-    header, footer {
-      background-color: #2f4f4f;
-      color: white;
-      text-align: center;
-      padding: 0.8rem;
-      flex-shrink: 0;
-    }
-    h1 {
-      margin: 0;
-      font-size: 1.4rem;
-    }
-    #chart-container {
-      flex-grow: 1;
-      position: relative;
-      overflow: auto;
-      background-color: white;
-    }
-    #chart {
-      min-width: 100%;
-      min-height: 100%;
-    }
-    .node circle {
-      fill: #004d7a;
-      stroke: #ccc;
-      stroke-width: 1.5px;
-    }
-    .node text {
-      font-size: 0.9rem;
-      fill: #333;
-    }
-    .link {
-      fill: none;
-      stroke: #aaa;
-      stroke-width: 1.5px;
-    }
-    @media (max-width: 600px) {
-      h1 { font-size: 1.2rem; }
-      header, footer { padding: 0.6rem; }
-      .node text { font-size: 0.8rem; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Genesis Family Tree (Adam → Abraham)</h1>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genesis Family Tree — D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f9f6f2;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      header,
+      footer {
+        background-color: #2f4f4f;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+      }
+      h1 {
+        margin: 0;
+        font-size: 1.6rem;
+      }
+      #chart {
+        flex-grow: 1;
+        overflow: auto;
+        background-color: white;
+      }
+      .node circle {
+        fill: #004d7a;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+      }
+      .node text {
+        font-size: 1rem;
+        fill: #333;
+      }
+      .link {
+        fill: none;
+        stroke: #aaa;
+        stroke-width: 1.5px;
+      }
+      @media screen and (max-width: 600px) {
+        h1 {
+          font-size: 1.4rem;
+        }
+        .node text {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Genesis Family Tree (Adam → Abraham)</h1>
+    </header>
 
-  <div id="chart-container">
     <div id="chart"></div>
-  </div>
 
-  <footer>
-    <p>&copy; 2025 Biblical Resources by Shawn</p>
-  </footer>
+    <footer>
+      <p>&copy; 2025 Biblical Resources by Shawn</p>
+    </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    <script>
       const treeData = {
         name: "Adam",
         children: [
           {
             name: "Cain",
             children: [
-              { name: "Enoch_Cain",
+              {
+                name: "Enoch_Cain",
                 children: [
-                  { name: "Irad",
+                  {
+                    name: "Irad",
                     children: [
-                      { name: "Mehujael",
+                      {
+                        name: "Mehujael",
                         children: [
-                          { name: "Methushael",
+                          {
+                            name: "Methushael",
                             children: [
-                              { name: "Lamech_Cain",
+                              {
+                                name: "Lamech_Cain",
                                 children: [
-                                  { name: "Adah",
+                                  {
+                                    name: "Adah",
                                     children: [
                                       { name: "Jabal" },
-                                      { name: "Jubal" }
-                                    ]
+                                      { name: "Jubal" },
+                                    ],
                                   },
-                                  { name: "Zillah",
+                                  {
+                                    name: "Zillah",
                                     children: [
                                       { name: "Tubal-Cain" },
-                                      { name: "Naamah" }
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+                                      { name: "Naamah" },
+                                    ],
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
           {
             name: "Seth",
             children: [
-              { name: "Enosh",
+              {
+                name: "Enosh",
                 children: [
-                  { name: "Kenan",
+                  {
+                    name: "Kenan",
                     children: [
-                      { name: "Mahalalel",
+                      {
+                        name: "Mahalalel",
                         children: [
-                          { name: "Jared",
+                          {
+                            name: "Jared",
                             children: [
-                              { name: "Enoch",
+                              {
+                                name: "Enoch",
                                 children: [
-                                  { name: "Methuselah",
+                                  {
+                                    name: "Methuselah",
                                     children: [
-                                      { name: "Lamech",
+                                      {
+                                        name: "Lamech",
                                         children: [
-                                          { name: "Noah",
+                                          {
+                                            name: "Noah",
                                             children: [
                                               {
                                                 name: "Shem",
                                                 children: [
-                                                  { name: "Arphaxad",
+                                                  {
+                                                    name: "Arphaxad",
                                                     children: [
-                                                      { name: "Shelah",
+                                                      {
+                                                        name: "Shelah",
                                                         children: [
-                                                          { name: "Eber",
+                                                          {
+                                                            name: "Eber",
                                                             children: [
                                                               {
                                                                 name: "Peleg",
@@ -149,47 +161,174 @@
                                                                     children: [
                                                                       {
                                                                         name: "Serug",
-                                                                        children: [
-                                                                          {
-                                                                            name: "Nahor",
-                                                                            children: [
-                                                                              {
-                                                                                name: "Terah",
-                                                                                children: [
-                                                                                  { name: "Abraham" }
-                                                                                ]
-                                                                              }
-                                                                            ]
-                                                                          }
-                                                                        ]
-                                                                      }
-                                                                    ]
-                                                                  }
-                                                                ]
+                                                                        children:
+                                                                          [
+                                                                            {
+                                                                              name: "Nahor",
+                                                                              children:
+                                                                                [
+                                                                                  {
+                                                                                    name: "Terah",
+                                                                                    children:
+                                                                                      [
+                                                                                        {
+                                                                                          name: "Abraham",
+                                                                                          children:
+                                                                                            [
+                                                                                              {
+                                                                                                name: "Sarah (half-sister)",
+                                                                                              },
+                                                                                              {
+                                                                                                name: "Isaac",
+                                                                                                children:
+                                                                                                  [
+                                                                                                    {
+                                                                                                      name: "Rebekah (wife)",
+                                                                                                      children:
+                                                                                                        [
+                                                                                                          {
+                                                                                                            name: "Jacob",
+                                                                                                          },
+                                                                                                          {
+                                                                                                            name: "Esau",
+                                                                                                          },
+                                                                                                        ],
+                                                                                                    },
+                                                                                                  ],
+                                                                                              },
+                                                                                              {
+                                                                                                name: "Ishmael",
+                                                                                              },
+                                                                                            ],
+                                                                                        },
+                                                                                        {
+                                                                                          name: "Nahor",
+                                                                                          children:
+                                                                                            [
+                                                                                              {
+                                                                                                name: "Milkah (wife)",
+                                                                                                children:
+                                                                                                  [
+                                                                                                    {
+                                                                                                      name: "Uz",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Buz",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Kemuel (father of Aram)",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Kesed",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Hazo",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Pildash",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Jidlaph",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Bethuel",
+                                                                                                      children:
+                                                                                                        [
+                                                                                                          {
+                                                                                                            name: "Rebekah",
+                                                                                                          },
+                                                                                                        ],
+                                                                                                    },
+                                                                                                  ],
+                                                                                              },
+                                                                                              {
+                                                                                                name: "Reumah (concubine)",
+                                                                                                children:
+                                                                                                  [
+                                                                                                    {
+                                                                                                      name: "Tebah",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Gaham",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Tahash",
+                                                                                                    },
+                                                                                                    {
+                                                                                                      name: "Maakah",
+                                                                                                    },
+                                                                                                  ],
+                                                                                              },
+                                                                                            ],
+                                                                                        },
+                                                                                        {
+                                                                                          name: "Haran",
+                                                                                          children:
+                                                                                            [
+                                                                                              {
+                                                                                                name: "Lot",
+                                                                                              },
+                                                                                            ],
+                                                                                        },
+                                                                                      ],
+                                                                                  },
+                                                                                ],
+                                                                            },
+                                                                          ],
+                                                                      },
+                                                                    ],
+                                                                  },
+                                                                ],
                                                               },
                                                               {
                                                                 name: "Joktan",
                                                                 children: [
-                                                                  { name: "Almodad" },
-                                                                  { name: "Sheleph" },
-                                                                  { name: "Hazarmaveth" },
-                                                                  { name: "Jerah" },
-                                                                  { name: "Hadoram" },
-                                                                  { name: "Uzal" },
-                                                                  { name: "Diklah" },
-                                                                  { name: "Obal" },
-                                                                  { name: "Abimael" },
-                                                                  { name: "Sheba_Joktan" },
-                                                                  { name: "Ophir" },
-                                                                  { name: "Havilah_Joktan" },
-                                                                  { name: "Jobab" }
-                                                                ]
-                                                              }
-                                                            ]
-                                                          }
-                                                        ]
-                                                      }
-                                                    ]
+                                                                  {
+                                                                    name: "Almodad",
+                                                                  },
+                                                                  {
+                                                                    name: "Sheleph",
+                                                                  },
+                                                                  {
+                                                                    name: "Hazarmaveth",
+                                                                  },
+                                                                  {
+                                                                    name: "Jerah",
+                                                                  },
+                                                                  {
+                                                                    name: "Hadoram",
+                                                                  },
+                                                                  {
+                                                                    name: "Uzal",
+                                                                  },
+                                                                  {
+                                                                    name: "Diklah",
+                                                                  },
+                                                                  {
+                                                                    name: "Obal",
+                                                                  },
+                                                                  {
+                                                                    name: "Abimael",
+                                                                  },
+                                                                  {
+                                                                    name: "Sheba_Joktan",
+                                                                  },
+                                                                  {
+                                                                    name: "Ophir",
+                                                                  },
+                                                                  {
+                                                                    name: "Havilah_Joktan",
+                                                                  },
+                                                                  {
+                                                                    name: "Jobab",
+                                                                  },
+                                                                ],
+                                                              },
+                                                            ],
+                                                          },
+                                                        ],
+                                                      },
+                                                    ],
                                                   },
                                                   { name: "Lud" },
                                                   {
@@ -198,10 +337,10 @@
                                                       { name: "Uz" },
                                                       { name: "Hul" },
                                                       { name: "Gether" },
-                                                      { name: "Meshek_Aram" }
-                                                    ]
-                                                  }
-                                                ]
+                                                      { name: "Meshek_Aram" },
+                                                    ],
+                                                  },
+                                                ],
                                               },
                                               {
                                                 name: "Ham",
@@ -216,12 +355,12 @@
                                                         name: "Raamah",
                                                         children: [
                                                           { name: "Sheba" },
-                                                          { name: "Dedan" }
-                                                        ]
+                                                          { name: "Dedan" },
+                                                        ],
                                                       },
                                                       { name: "Sabteka" },
-                                                      { name: "Nimrod" }
-                                                    ]
+                                                      { name: "Nimrod" },
+                                                    ],
                                                   },
                                                   {
                                                     name: "Egypt",
@@ -231,13 +370,16 @@
                                                       { name: "Lehabites" },
                                                       { name: "Naphtuhites" },
                                                       { name: "Pathrusites" },
-                                                      { name: "Kasluhites",
+                                                      {
+                                                        name: "Kasluhites",
                                                         children: [
-                                                          { name: "Philistines" }
-                                                        ]
+                                                          {
+                                                            name: "Philistines",
+                                                          },
+                                                        ],
                                                       },
-                                                      { name: "Caphtorites" }
-                                                    ]
+                                                      { name: "Caphtorites" },
+                                                    ],
                                                   },
                                                   { name: "Put" },
                                                   {
@@ -253,10 +395,10 @@
                                                       { name: "Sinites" },
                                                       { name: "Arvadites" },
                                                       { name: "Zemarites" },
-                                                      { name: "Hamathites" }
-                                                    ]
-                                                  }
-                                                ]
+                                                      { name: "Hamathites" },
+                                                    ],
+                                                  },
+                                                ],
                                               },
                                               {
                                                 name: "Japheth",
@@ -266,8 +408,8 @@
                                                     children: [
                                                       { name: "Ashkenaz" },
                                                       { name: "Riphath" },
-                                                      { name: "Togarmah" }
-                                                    ]
+                                                      { name: "Togarmah" },
+                                                    ],
                                                   },
                                                   { name: "Magog" },
                                                   { name: "Madai" },
@@ -277,57 +419,61 @@
                                                       { name: "Elishah" },
                                                       { name: "Tarshish" },
                                                       { name: "Kittites" },
-                                                      { name: "Rodanites" }
-                                                    ]
+                                                      { name: "Rodanites" },
+                                                    ],
                                                   },
                                                   { name: "Tubal" },
                                                   { name: "Meshek" },
-                                                  { name: "Tiras" }
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                                                  { name: "Tiras" },
+                                                ],
+                                              },
+                                            ],
+                                          },
+                                        ],
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       };
 
-      // Calculate dimensions based on viewport
-      const container = document.getElementById('chart-container');
-      const width = Math.max(container.clientWidth, window.innerWidth) * 2.5;
-      const height = Math.max(container.clientHeight, window.innerHeight) * 2;
-      
-      const margin = { top: 20, right: 120, bottom: 20, left: 120 };
+      const margin = { top: 20, right: 200, bottom: 20, left: 200 },
+        width = window.innerWidth * 3,
+        height = window.innerHeight * 1.5;
 
-      // Create SVG
-      const svg = d3.select("#chart")
+      const svg = d3
+        .select("#chart")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .call(d3.zoom()
-          .scaleExtent([0.1, 5])
-          .on("zoom", (event) => {
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", [
+          0,
+          0,
+          width + margin.left + margin.right,
+          height + margin.top + margin.bottom,
+        ])
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .call(
+          d3.zoom().on("zoom", (event) => {
             g.attr("transform", event.transform);
-          }));
+          })
+        );
 
-      const g = svg.append("g")
+      const g = svg
+        .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // Create tree layout
       const root = d3.hierarchy(treeData);
       const treeLayout = d3.tree().size([height, width]);
       treeLayout(root);
@@ -337,44 +483,30 @@
         .data(root.links())
         .join("path")
         .attr("class", "link")
-        .attr("d", d3.linkHorizontal()
-          .x(d => d.y)
-          .y(d => d.x));
+        .attr(
+          "d",
+          d3
+            .linkHorizontal()
+            .x((d) => d.y)
+            .y((d) => d.x)
+        );
 
       // Draw nodes
-      const node = g.selectAll(".node")
+      const node = g
+        .selectAll(".node")
         .data(root.descendants())
         .join("g")
         .attr("class", "node")
-        .attr("transform", d => `translate(${d.y},${d.x})`);
+        .attr("transform", (d) => `translate(${d.y},${d.x})`);
 
-      node.append("circle")
-        .attr("r", 4);
+      node.append("circle").attr("r", 5);
 
-      node.append("text")
+      node
+        .append("text")
         .attr("dy", "0.35em")
-        .attr("x", d => d.children ? -10 : 10)
-        .attr("text-anchor", d => d.children ? "end" : "start")
-        .text(d => d.data.name);
-
-      // Center the tree initially
-      const initialScale = 0.7;
-      const initialX = -width * 0.2;
-      const initialY = -height * 0.1;
-      
-      svg.call(d3.zoom().transform, d3.zoomIdentity
-        .translate(initialX, initialY)
-        .scale(initialScale));
-
-      // Handle window resize
-      window.addEventListener('resize', function() {
-        const newWidth = Math.max(container.clientWidth, window.innerWidth) * 2.5;
-        const newHeight = Math.max(container.clientHeight, window.innerHeight) * 2;
-        
-        svg.attr("width", newWidth + margin.left + margin.right)
-           .attr("height", newHeight + margin.top + margin.bottom);
-      });
-    });
-  </script>
-</body>
+        .attr("x", (d) => (d.children ? -10 : 10))
+        .attr("text-anchor", (d) => (d.children ? "end" : "start"))
+        .text((d) => d.data.name);
+    </script>
+  </body>
 </html>
