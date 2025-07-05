@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combined Biblical Genealogy Gantt Chart</title>
+    <title>Biblical Genealogy Gantt Chart</title>
     <style>
         :root {
             --adam-color: #4a6fa5;
-            --cain-color: #d32f2f;
             --noah-color: #388e3c;
             --abraham-color: #7b1fa2;
             --event-color: #ffa000;
@@ -75,7 +74,7 @@
             display: flex;
             min-width: 2500px;
             position: relative;
-            height: 700px;
+            height: 600px;
         }
         
         .years {
@@ -168,10 +167,6 @@
         
         .adam-line .life-bar {
             background-color: var(--adam-color);
-        }
-        
-        .cain-line .life-bar {
-            background-color: var(--cain-color);
         }
         
         .noah-line .life-bar {
@@ -294,12 +289,11 @@
     </style>
 </head>
 <body>
-    <h1>Combined Biblical Genealogy Timeline</h1>
+    <h1>Biblical Genealogy Timeline (Adam to Abraham)</h1>
     
     <div class="controls">
         <button id="show-all" class="active">Show All</button>
-        <button id="show-adam">Adam's Line</button>
-        <button id="show-cain">Cain's Line</button>
+        <button id="show-adam">Adam to Noah</button>
         <button id="show-noah">Noah's Descendants</button>
         <button id="show-abraham">Abraham's Family</button>
         <button id="zoom-in">Zoom In</button>
@@ -316,11 +310,7 @@
     <div class="legend">
         <div class="legend-item">
             <div class="legend-color" style="background-color: var(--adam-color);"></div>
-            <span>Adam's Line</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: var(--cain-color);"></div>
-            <span>Cain's Line</span>
+            <span>Adam to Noah</span>
         </div>
         <div class="legend-item">
             <div class="legend-color" style="background-color: var(--noah-color);"></div>
@@ -342,9 +332,9 @@
     </div>
     
     <script>
-        // Combined data for all genealogies
+        // Combined data for all genealogies (without Cain's line)
         const combinedData = {
-            title: "Combined Biblical Genealogies",
+            title: "Biblical Genealogy from Adam to Abraham",
             startYear: 0,
             endYear: 2500,
             people: [
@@ -431,7 +421,7 @@
                     info: "Son of Enoch, born when Enoch was 65. Lived 969 years (longest in Bible). Father of Lamech at age 187."
                 },
                 {
-                    name: "Lamech (Adam's line)",
+                    name: "Lamech",
                     birth: 874,
                     death: 1651,
                     family: "adam",
@@ -450,93 +440,6 @@
                         { year: 1656, description: "Flood begins" }
                     ],
                     info: "Son of Lamech, born when Lamech was 182. Lived 950 years. Father of Shem, Ham and Japheth at age 500. Built the ark and survived the flood."
-                },
-                
-                // Cain's Line
-                {
-                    name: "Cain",
-                    birth: 0,
-                    death: null,
-                    family: "cain",
-                    events: [
-                        { year: 100, description: "Builds city of Enoch" },
-                        { year: 100, description: "Fathers Enoch" }
-                    ],
-                    info: "First son of Adam and Eve. Killed his brother Abel. Was banished and built the first city."
-                },
-                {
-                    name: "Enoch (son of Cain)",
-                    birth: 100,
-                    death: null,
-                    family: "cain",
-                    events: [
-                        { year: 200, description: "Fathers Irad" }
-                    ],
-                    info: "Son of Cain, after whom Cain named the first city."
-                },
-                {
-                    name: "Irad",
-                    birth: 200,
-                    death: null,
-                    family: "cain",
-                    events: [
-                        { year: 300, description: "Fathers Mehujael" }
-                    ],
-                    info: "Son of Enoch, grandson of Cain."
-                },
-                {
-                    name: "Mehujael",
-                    birth: 300,
-                    death: null,
-                    family: "cain",
-                    events: [
-                        { year: 400, description: "Fathers Methushael" }
-                    ],
-                    info: "Son of Irad, great-grandson of Cain."
-                },
-                {
-                    name: "Methushael",
-                    birth: 400,
-                    death: null,
-                    family: "cain",
-                    events: [
-                        { year: 500, description: "Fathers Lamech" }
-                    ],
-                    info: "Son of Mehujael, descendant of Cain."
-                },
-                {
-                    name: "Lamech (Cain's line)",
-                    birth: 500,
-                    death: null,
-                    family: "cain",
-                    events: [
-                        { year: 600, description: "Fathers Jabal, Jubal, Tubal-Cain" }
-                    ],
-                    info: "Son of Methushael. First recorded polygamist (married Adah and Zillah). His sons were founders of various arts and crafts."
-                },
-                {
-                    name: "Jabal",
-                    birth: 600,
-                    death: null,
-                    family: "cain",
-                    events: [],
-                    info: "Son of Lamech and Adah. Father of those who live in tents and raise livestock."
-                },
-                {
-                    name: "Jubal",
-                    birth: 600,
-                    death: null,
-                    family: "cain",
-                    events: [],
-                    info: "Son of Lamech and Adah. Father of all who play stringed instruments and pipes."
-                },
-                {
-                    name: "Tubal-Cain",
-                    birth: 600,
-                    death: null,
-                    family: "cain",
-                    events: [],
-                    info: "Son of Lamech and Zillah. Forged tools of bronze and iron."
                 },
                 
                 // Noah's Descendants
@@ -647,7 +550,7 @@
         // Current state
         let zoomLevel = 1;
         const baseYearWidth = 2; // pixels per year at zoom level 1
-        let visibleFamilies = ["adam", "cain", "noah", "abraham"];
+        let visibleFamilies = ["adam", "noah", "abraham"];
         
         // Initialize the chart
         function initChart() {
@@ -708,8 +611,7 @@
             
             // Group people by family
             const families = {
-                adam: { title: "Adam's Line", people: [] },
-                cain: { title: "Cain's Line", people: [] },
+                adam: { title: "Adam to Noah", people: [] },
                 noah: { title: "Noah's Descendants", people: [] },
                 abraham: { title: "Abraham's Family", people: [] }
             };
@@ -814,12 +716,10 @@
                 btn.classList.remove('active');
             });
             
-            if (familiesToShow.length === 4) {
+            if (familiesToShow.length === 3) {
                 document.getElementById('show-all').classList.add('active');
             } else if (familiesToShow.includes('adam') && familiesToShow.length === 1) {
                 document.getElementById('show-adam').classList.add('active');
-            } else if (familiesToShow.includes('cain') && familiesToShow.length === 1) {
-                document.getElementById('show-cain').classList.add('active');
             } else if (familiesToShow.includes('noah') && familiesToShow.length === 1) {
                 document.getElementById('show-noah').classList.add('active');
             } else if (familiesToShow.includes('abraham') && familiesToShow.length === 1) {
@@ -831,15 +731,11 @@
         
         // Event listeners
         document.getElementById("show-all").addEventListener("click", () => {
-            filterFamilies(["adam", "cain", "noah", "abraham"]);
+            filterFamilies(["adam", "noah", "abraham"]);
         });
         
         document.getElementById("show-adam").addEventListener("click", () => {
             filterFamilies(["adam"]);
-        });
-        
-        document.getElementById("show-cain").addEventListener("click", () => {
-            filterFamilies(["cain"]);
         });
         
         document.getElementById("show-noah").addEventListener("click", () => {

@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Biblical Resource Hub</title>
-
+  <title>Genesis Money Converter</title>
   <style>
     :root {
       --bg-light: #fdf9f2;
@@ -73,61 +72,48 @@
       padding: 2rem 1rem;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
     }
 
-    .resource-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    .card-stack {
+      display: flex;
+      flex-direction: column;
       gap: 1.5rem;
-      max-width: 800px;
+      max-width: 700px;
       width: 100%;
     }
 
-    .resource-card {
+    .card {
       background-color: var(--card-bg-light);
       border-radius: 8px;
       border: 1px solid #ccc;
-      padding: 1.2rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: box-shadow 0.3s ease;
     }
 
-    .resource-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-
-    body.dark .resource-card {
+    body.dark .card {
       background-color: var(--card-bg-dark);
       border-color: #444;
     }
 
-    .resource-card h2 {
-      font-size: 1.3rem;
+    .card h2 {
       margin-top: 0;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
       color: var(--accent-light);
+      font-size: 1.3rem;
     }
 
-    body.dark .resource-card h2 {
+    body.dark .card h2 {
       color: var(--accent-dark);
     }
 
-    .resource-card a {
-      display: inline-block;
-      margin-top: 0.5rem;
-      font-weight: bold;
-      text-decoration: none;
+    .card p {
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .card p strong {
       color: #007acc;
-    }
-
-    body.dark .resource-card a {
-      color: #66cfff;
-    }
-
-    .resource-card a:hover {
-      text-decoration: underline;
     }
 
     footer {
@@ -137,46 +123,44 @@
 
     @media screen and (max-width: 600px) {
       header h1 { font-size: 1.6rem; }
-      header p { font-size: 0.9rem; }
-      .resource-card h2 { font-size: 1.2rem; }
-      .resource-card { padding: 1rem; }
+      .card h2 { font-size: 1.2rem; }
+      .card { padding: 1.2rem; }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>📖 Biblical Resource Hub</h1>
-    <p>Explore foundational insights from Genesis.</p>
+    <h1>💸 Genesis Money Converter</h1>
+    <p>Understand biblical currency in modern terms.</p>
     <button class="dark-toggle" onclick="toggleDark()">🌓 Toggle Dark Mode</button>
   </header>
 
   <main>
-    <section class="resource-list">
-      <article class="resource-card">
-        <h2>📊 Genesis Patriarchy Timeline</h2>
-        <a href="pages/genesis-patriarch-timeline.html">View Timeline</a>
-      </article>
+    <div class="card-stack">
 
-      <article class="resource-card">
-        <h2>🌳 Genesis Patriarchy Family Tree</h2>
-        <a href="pages/genesis-family-tree.html">View Family Tree</a>
-      </article>
-
-      <article class="resource-card">
-        <h2>💸 Genesis Geography</h2>
-        <a href="pages/noahs-ark.html">Visualised View Of The Ark</a>
-      </article>
-
-      <article class="resource-card">
-        <h2>💸 Genesis Money Converter</h2>
-        <a href="pages/ancient-currency-converter.html">Money</a>
-      </article>
-
-      <article class="resource-card">
-        <h2>💸 Genesis Geography</h2>
-        <a href="pages/genesis-geography.html">Visualised View Of Their Journey</a>
-      </article>
-    </section>
+        <div class="card">
+  <h2>💸 Abraham’s Purchase of Machpelah</h2>
+  <p>
+    📖 In <strong>Genesis 23:16</strong>, Abraham secured a burial site for Sarah by paying <strong>400 shekels of silver</strong> to Ephron the Hittite. This wasn’t just a deal—it was the first recorded land purchase in the promised land, cementing a spiritual foothold for generations.
+  </p>
+  <p>
+    ⚖️ A biblical shekel weighed approximately <strong>11.4 grams</strong>. At today’s silver price (<strong>$0.50–$1.30 per gram</strong>):
+  </p>
+  <ul>
+    <li>💰 <strong>1 shekel ≈ $6 to $15 USD</strong></li>
+    <li>💰 <strong>400 shekels ≈ $2,400 to $6,000 USD</strong> in modern silver value</li>
+  </ul>
+  <p>
+    📍 The field and cave of Machpelah lie near <strong>Hebron</strong>, located in the southern West Bank—approximately 30 km south of Jerusalem. Today, the site is known as the <strong>Cave of the Patriarchs</strong> 🕍 by Jews and the <strong>Ibrahimi Mosque</strong> 🕌 by Muslims.
+  </p>
+  <p>
+    🏛️ While the inner cave remains sealed, the monumental structure above dates to Herod’s reign, serving over centuries as a synagogue, church, and mosque. It remains one of the holiest shared sacred spaces on Earth.
+  </p>
+  <p>
+    🧬 Within this tomb rest the founding figures of faith: <strong>Abraham and Sarah</strong>, <strong>Isaac and Rebekah</strong>, and <strong>Jacob and Leah</strong>—a legacy literally grounded in silver and belief.
+  </p>
+</div>
+     
   </main>
 
   <footer>
@@ -185,7 +169,7 @@
 
   <script>
     function toggleDark() {
-      document.body.classList.toggle('dark');
+      document.body.classList.toggle("dark");
     }
   </script>
 </body>

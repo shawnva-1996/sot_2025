@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Noah's Ark Visualization</title>
+  <style>
+    :root {
+      --bg-light: #fdf9f2;
+      --bg-dark: #1e1e1e;
+      --text-light: #333;
+      --text-dark: #eee;
+      --accent-light: #004d7a;
+      --accent-dark: #66cfff;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    header, footer {
+      background-color: #2f4f4f;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    .dark-toggle {
+      margin-top: 0.5rem;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .annotation {
+      font-size: 0.85rem;
+      fill: var(--accent-light);
+    }
+
+    body.dark .annotation {
+      fill: var(--accent-dark);
+    }
+
+    footer {
+      font-size: 0.85rem;
+      padding: 1rem;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 { font-size: 1.3rem; }
+      .annotation { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛶 Noah’s Ark Blueprint</h1>
+    <button class="dark-toggle" onclick="toggleDark()">🌓 Toggle Dark Mode</button>
+  </header>
+
+  <main>
+    <svg viewBox="0 0 600 150">
+      <!-- Ark body -->
+      <rect x="50" y="40" width="500" height="70" rx="10" fill="#c2a875" stroke="#8b5e3c" stroke-width="2" />
+
+      <!-- Deck dividers -->
+      <line x1="50" y1="63" x2="550" y2="63" stroke="#8b5e3c" stroke-width="2"/>
+      <line x1="50" y1="90" x2="550" y2="90" stroke="#8b5e3c" stroke-width="2"/>
+
+      <!-- Roof opening -->
+      <rect x="50" y="35" width="500" height="5" fill="#666"/>
+
+      <!-- Side door -->
+      <rect x="530" y="75" width="15" height="25" fill="#444"/>
+
+      <!-- Labels -->
+      <text class="annotation" x="60" y="35">🔼 Roof vent (1 cubit)</text>
+      <text class="annotation" x="540" y="115">🚪 Side door</text>
+      <text class="annotation" x="60" y="60">🪵 Lower Deck</text>
+      <text class="annotation" x="60" y="88">🪵 Middle Deck</text>
+      <text class="annotation" x="60" y="115">🪵 Upper Deck</text>
+      <text class="annotation" x="270" y="130" text-anchor="middle">📏 300 cubits long</text>
+    </svg>
+  </main>
+
+  <footer>
+    <p>Visualized from Genesis 6:14–16 — &copy; 2025 Biblical Resources by Shawn</p>
+  </footer>
+
+  <script>
+    function toggleDark() {
+      document.body.classList.toggle("dark");
+    }
+  </script>
+</body>
+</html>
